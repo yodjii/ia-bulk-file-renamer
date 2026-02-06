@@ -59,112 +59,122 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white p-8 flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/20 blur-[120px]" />
-      </div>
-
-      <div className="w-full max-w-5xl space-y-12 z-10">
+    <main className="min-h-screen bg-white text-slate-900 p-8 flex flex-col items-center justify-center font-sans">
+      
+      <div className="w-full max-w-5xl space-y-16">
         
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className="inline-block px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-sm font-medium text-purple-300 mb-4">
-            ✨ AI Powered Renaming
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="p-2 bg-black rounded-lg">
+              <Wand2 className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold text-lg tracking-tight">AI Renamer</span>
           </div>
-          <h1 className="text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent drop-shadow-sm">
-            AI Bulk Renamer
+          
+          <h1 className="text-5xl font-extrabold tracking-tight text-slate-900">
+            Comment souhaitez-vous renommer vos fichiers ?
           </h1>
-          <p className="text-slate-400 text-xl max-w-2xl mx-auto font-light">
-            Renommez des milliers de fichiers en une seconde avec la puissance de l'IA.
-            <br/>Simplement magique.
+          <p className="text-slate-500 text-xl max-w-2xl mx-auto font-medium">
+            Utilisez l'intelligence artificielle pour organiser vos documents en un clin d'œil.
           </p>
         </div>
 
-        {/* Main Card */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl space-y-8">
+        {/* Main Content Area */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           
-          {/* Prompt Bar */}
-          <div className="flex gap-4">
-            <div className="flex-1 bg-black/40 border border-white/10 rounded-2xl p-2 flex items-center focus-within:ring-2 focus-within:ring-purple-500/50 transition-all">
-              <div className="p-3">
-                <Wand2 className="w-6 h-6 text-purple-400" />
+          {/* Left Column: Prompt & Upload */}
+          <div className="space-y-8">
+            
+            {/* Prompt Card */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <span className="bg-slate-100 p-2 rounded-lg">1</span>
+                Votre instruction
+              </h2>
+              <div className="flex gap-3">
+                <input 
+                  type="text" 
+                  placeholder="Ex: Convertis en snake_case et ajoute la date..." 
+                  className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-black/5 transition-all placeholder:text-slate-400"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                />
+                <button 
+                  onClick={handleGenerate}
+                  className="bg-black text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-all active:scale-95"
+                >
+                  Go
+                </button>
               </div>
-              <input 
-                type="text" 
-                placeholder="Ex: Convertis en snake_case et ajoute la date..." 
-                className="flex-1 bg-transparent border-none outline-none text-lg text-white placeholder-slate-500 px-2 h-full"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-              />
             </div>
-            <button 
-              onClick={handleGenerate}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-purple-900/20 hover:scale-105 active:scale-95"
+
+            {/* Upload Card */}
+            <div 
+              onDragOver={onDragOver}
+              onDragLeave={onDragLeave}
+              onDrop={onDrop}
+              className={`
+                bg-white border-2 border-dashed rounded-3xl p-12 text-center transition-all cursor-pointer group
+                ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}
+              `}
             >
-              Générer
-            </button>
-          </div>
-
-          {/* Drop Zone */}
-          <div 
-            onDragOver={onDragOver}
-            onDragLeave={onDragLeave}
-            onDrop={onDrop}
-            className={`
-              border-2 border-dashed rounded-2xl p-16 text-center transition-all duration-300 cursor-pointer group
-              ${isDragging ? 'border-purple-500 bg-purple-500/10' : 'border-white/10 bg-black/20 hover:border-white/20 hover:bg-black/30'}
-            `}
-          >
-            <div className="flex flex-col items-center gap-6">
-              <div className={`p-6 rounded-full transition-all duration-300 ${isDragging ? 'bg-purple-500/20 scale-110' : 'bg-white/5 group-hover:scale-110'}`}>
-                <Upload className={`w-10 h-10 ${isDragging ? 'text-purple-400' : 'text-slate-400'}`} />
-              </div>
-              <div>
-                <p className="text-2xl font-medium text-white mb-2">Glissez vos fichiers ici</p>
-                <p className="text-slate-500">Supporte images, documents, vidéos...</p>
+              <div className="flex flex-col items-center gap-4">
+                <div className={`p-4 rounded-full transition-all ${isDragging ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-600 group-hover:scale-110'}`}>
+                  <Upload className="w-8 h-8" />
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-slate-900">Uploader vos fichiers</p>
+                  <p className="text-slate-500 mt-1">Glissez-déposez ou cliquez ici</p>
+                </div>
               </div>
             </div>
+
           </div>
 
-          {/* Preview List */}
-          {files.length > 0 && (
-            <div className="bg-black/40 rounded-2xl border border-white/5 overflow-hidden">
-              <div className="grid grid-cols-[1fr,auto,1fr] gap-4 p-4 border-b border-white/5 bg-white/5 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                <div>Original</div>
-                <div></div>
-                <div>Résultat IA</div>
+          {/* Right Column: Preview */}
+          <div className="bg-slate-50 rounded-3xl p-8 border border-slate-200 h-full min-h-[400px] flex flex-col">
+            <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900">
+              <span className="bg-white border border-slate-200 p-2 rounded-lg shadow-sm">2</span>
+              Aperçu des résultats
+            </h2>
+
+            {files.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-2xl m-4">
+                <FileText className="w-12 h-12 mb-4 opacity-50" />
+                <p>Aucun fichier sélectionné</p>
               </div>
-              <div className="max-h-[300px] overflow-y-auto divide-y divide-white/5 custom-scrollbar">
+            ) : (
+              <div className="flex-1 overflow-y-auto custom-scrollbar space-y-3">
                 {files.map((file, idx) => (
-                  <div key={idx} className="grid grid-cols-[1fr,auto,1fr] gap-4 p-4 items-center hover:bg-white/5 transition-colors group">
-                    <div className="flex items-center gap-3 text-slate-300 truncate">
-                      <FileText className="w-5 h-5 shrink-0 text-slate-600 group-hover:text-slate-400 transition-colors" />
-                      <span className="truncate font-mono text-sm">{file.originalName}</span>
+                  <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between group hover:border-slate-300 transition-all">
+                    <div className="flex items-center gap-3 overflow-hidden flex-1">
+                      <div className="p-2 bg-slate-100 rounded-lg shrink-0">
+                        <FileText className="w-4 h-4 text-slate-500" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm text-slate-500 line-through truncate">{file.originalName}</span>
+                        <span className={`font-mono text-sm font-medium truncate ${file.newName ? 'text-emerald-600' : 'text-slate-400'}`}>
+                          {file.newName || '...'}
+                        </span>
+                      </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-slate-700" />
-                    <div className={`flex items-center gap-2 font-mono text-sm ${file.newName ? 'text-emerald-400' : 'text-slate-600 italic'}`}>
-                      {file.newName || 'En attente...'}
-                      {file.newName && <Check className="w-4 h-4" />}
-                    </div>
+                    {file.newName && <div className="text-emerald-500 bg-emerald-50 p-1 rounded-full"><Check className="w-4 h-4" /></div>}
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+
+            {files.length > 0 && (
+              <div className="mt-6 pt-6 border-t border-slate-200">
+                <button className="w-full bg-black hover:bg-slate-800 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-slate-200 active:translate-y-0.5">
+                  Valider {files.length} fichiers
+                </button>
+              </div>
+            )}
+          </div>
 
         </div>
-
-        {/* Action Footer */}
-        {files.length > 0 && (
-          <div className="flex justify-center pb-8">
-            <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-12 py-5 rounded-full font-bold text-xl shadow-xl shadow-emerald-900/30 transition-all hover:-translate-y-1 active:translate-y-0 flex items-center gap-3">
-              <Check className="w-6 h-6" />
-              Valider et Renommer ({files.length})
-            </button>
-          </div>
-        )}
 
       </div>
     </main>
