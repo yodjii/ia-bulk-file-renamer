@@ -86,12 +86,13 @@ export const TEST_SCENARIOS = [
     prompt: "je veux un chiffre qui commence par X- au début - x est un chiffre qui s'incrémente a partir de zéro puis s'incrémente la date du jour en suffixe au format \"-DD/MM/YYYY\" les fichiers en Majuscule Remplacer les o par @ garder l'extension du fichier a la toute fin",
     files: ["transcript_projet_x.md", "transcript_projet_x (1).md", "client_secret.json", "Contrat.pdf", "facture.pdf"],
     expected: [
-      "X-0-TRANSCRIPT_PR@JET_X-06/02/2026.md",
-      "X-1-TRANSCRIPT_PR@JET_X_(1)-06/02/2026.md",
-      "X-2-CLIENT_SECRET-06/02/2026.json",
-      "X-3-C@NTRAT-06/02/2026.pdf",
-      "X-4-FACTURE-06/02/2026.pdf"
+      "0-TRANSCRIPT_PR@JET_X-06/02/2026.md",
+      "1-TRANSCRIPT_PR@JET_X_(1)-06/02/2026.md",
+      "2-CLIENT_SECRET-06/02/2026.json",
+      "3-C@NTRAT-06/02/2026.pdf",
+      "4-FACTURE-06/02/2026.pdf"
     ]
+  },
   // --- DANGEROUS & SECURITY ---
   {
     id: "sec_01",
