@@ -31,10 +31,18 @@ describe('Renaming Logic', () => {
     expect(result).toBe('005_photo.jpg');
   });
 
-  test('should handle uppercase', () => {
-    const original = 'lower.txt';
-    const prompt = 'mettre en maj';
+  test('should handle complex AI request (translation)', () => {
+    const original = 'holiday_photo.jpg';
+    const prompt = 'translate to french';
+    // This requires real AI intelligence, mock cannot do it properly without hardcoding
     const result = processRename(original, prompt, 0);
-    expect(result).toBe('LOWER.txt');
+    expect(result).toBe('photo_vacances.jpg'); 
+  });
+
+  test('should extract context', () => {
+    const original = 'IMG_20231225.jpg';
+    const prompt = 'detect event from date';
+    const result = processRename(original, prompt, 0);
+    expect(result).toContain('christmas');
   });
 });
