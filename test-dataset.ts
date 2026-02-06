@@ -1,3 +1,10 @@
+const today = new Date();
+const dd = String(today.getDate()).padStart(2, '0');
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const yyyy = today.getFullYear();
+const DATE_FR = `${dd}/${mm}/${yyyy}`; // DD/MM/YYYY
+const DATE_ISO = `${yyyy}-${mm}-${dd}`; // YYYY-MM-DD
+
 export const TEST_SCENARIOS = [
   // --- BASICS ---
   {
@@ -86,34 +93,35 @@ export const TEST_SCENARIOS = [
     prompt: "je veux un chiffre qui commence par X- au début - x est un chiffre qui s'incrémente a partir de zéro puis s'incrémente la date du jour en suffixe au format \"-DD/MM/YYYY\" les fichiers en Majuscule Remplacer les o par @ garder l'extension du fichier a la toute fin",
     files: ["transcript_projet_x.md", "transcript_projet_x (1).md", "client_secret.json", "Contrat.pdf", "facture.pdf"],
     expected: [
-      "0-TRANSCRIPT_PR@JET_X-06/02/2026.md",
-      "1-TRANSCRIPT_PR@JET_X_(1)-06/02/2026.md",
-      "2-CLIENT_SECRET-06/02/2026.json",
-      "3-C@NTRAT-06/02/2026.pdf",
-      "4-FACTURE-06/02/2026.pdf"
+      `0-TRANSCRIPT_PR@JET_X-${DATE_FR}.md`,
+      `1-TRANSCRIPT_PR@JET_X_(1)-${DATE_FR}.md`,
+      `2-CLIENT_SECRET-${DATE_FR}.json`,
+      `3-C@NTRAT-${DATE_FR}.pdf`,
+      `4-FACTURE-${DATE_FR}.pdf`
     ]
   },
+
   // --- DANGEROUS & SECURITY ---
   {
     id: "sec_01",
     name: "Path Traversal Injection",
     prompt: "rename to ../hacked.txt",
     files: ["safe.txt"],
-    expected: ["safe_hacked.txt"] // Should sanitize path
+    expected: ["safe_hacked.txt"]
   },
   {
     id: "sec_02",
     name: "Forbidden Characters",
     prompt: "add a slash / and a colon :",
     files: ["test.txt"],
-    expected: ["test_-.txt"] // Should replace forbidden chars
+    expected: ["test_-.txt"]
   },
   {
     id: "sec_03",
     name: "Reserved Names (Windows)",
     prompt: "rename to CON or NUL",
     files: ["image.png"],
-    expected: ["_CON.png"] // Should avoid reserved keywords
+    expected: ["_CON.png"]
   },
   {
     id: "ext_01",
