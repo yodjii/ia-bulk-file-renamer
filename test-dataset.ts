@@ -101,6 +101,29 @@ export const TEST_SCENARIOS = [
     ]
   },
 
+  // --- FLORIAN'S CHALLENGE V2 (Real Life) ---
+  {
+    id: "florian_02_mp3",
+    name: "MP3 Cleanup",
+    prompt: "Renomme en format propre 'Artiste - Titre [Année]'. Si l'année manque, mets [N/A].",
+    files: ["01_michael_jackson_thriller_1982.mp3", "Queen___Bohemian_Rhapsody.mp3"],
+    expected: ["Michael Jackson - Thriller [1982].mp3", "Queen - Bohemian Rhapsody [N/A].mp3"]
+  },
+  {
+    id: "florian_03_photos",
+    name: "Holiday Photos (Conditional)",
+    prompt: "Extrais la date si possible (format YYYY-MM-DD), sinon numérote 'Vacances_Inconnue_XXX'.",
+    files: ["IMG_20230501_120000.jpg", "Photo003.jpg"],
+    expected: ["Vacances_2023-05-01.jpg", "Vacances_Inconnue_001.jpg"] // Assuming index reset or mapping
+  },
+  {
+    id: "florian_04_admin",
+    name: "Smart Admin Docs",
+    prompt: "Renomme en 'Type_Date_Client.pdf'. Devine le type (Facture, Devis, Contrat).",
+    files: ["facture_erdf_janvier_2024.pdf", "devis_jardinage_dupont.pdf"],
+    expected: ["Facture_2024-01_ERDF.pdf", `Devis_${yyyy}_Dupont.pdf`] // Assuming current year for missing year
+  },
+
   // --- DANGEROUS & SECURITY ---
   {
     id: "sec_01",
