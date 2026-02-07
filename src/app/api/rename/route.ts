@@ -1,8 +1,26 @@
 import { NextResponse } from 'next/server';
 import { processRename } from '@/utils/renamer';
+import { TEST_SCENARIOS } from '../../../../test-dataset'; // Relative path from api/rename
+
+// Build the dynamic system prompt with few-shot examples
+function buildSystemPrompt() {
+  const examples = TEST_SCENARIOS.map(scenario => {
+    return `Instruction: "${scenario.prompt}"\nInput: ${JSON.stringify(scenario.files)}\nOutput: ${JSON.stringify(scenario.expected)}\n---`;
+  }).join('\n');
+
+  return `You are an expert file renaming assistant.
+Current Date: ${new Date().toISOString().split('T')[0]}
+
+RULES:
+1. Preserve file extensions.
+2. Use the following examples to understand the logic:
+
+${examples}
+
+Now, process the user request.`;
+}
 
 // Simulation for POC (replace with real LLM call)
-// In a real scenario, we would use the OpenAI or Gemini SDK here
 export async function POST(request: Request) {
   try {
     const { files, prompt } = await request.json();
@@ -14,6 +32,10 @@ export async function POST(request: Request) {
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt required' }, { status: 400 });
     }
+
+    // Generate the full context for the AI
+    const systemInstruction = buildSystemPrompt();
+    console.log("--- GENERATED SYSTEM PROMPT ---\n", systemInstruction.substring(0, 500) + "... [truncated]");
 
     console.log(`Processing ${files.length} files with prompt: "${prompt}"`);
 
